@@ -3,50 +3,58 @@
     Saida: true
 */
 
-let flowerbedParam = [0, 0];
+let flowerbedParam = [0, 0, 0, 0, 0, 1, 0, 0];
 
-let nParam = 1;
+let nParam = 0;
 
 var canPlaceFlowers = function (flowerbed, n) {
-  let pointer1 = 0;
+  let i = 0;
 
   let sumFlowerbed = 0;
 
-  if (flowerbed.length === 1 && flowerbed[pointer1] === 0) {
+  if (n === 0) {
     return true;
   }
 
-  while (pointer1 < flowerbed.length) {
-    let isPositionFlowerbed = 0;
+  if (flowerbed.length === 1 && flowerbed[0] === 0) {
+    flowerbed[0] = 1;
 
-    const pointer1Value = flowerbed[pointer1];
+    sumFlowerbed++;
 
-    if (pointer1 === flowerbed.length - 1) {
-      const previousValue = flowerbed[pointer1 - 1];
+    return sumFlowerbed === n;
+  }
 
-      if (previousValue === 0 && pointer1Value === 0) {
-        isPositionFlowerbed = true;
-      }
-    } else {
-      const previousValue = flowerbed[pointer1 - 1];
-      const nextValue = flowerbed[pointer1 + 1];
+  while (i < flowerbed.length) {
+    const currentValue = flowerbed[i];
 
-      if (previousValue === 0 && pointer1Value === 0 && nextValue === 0) {
-        isPositionFlowerbed = true;
-      }
-    }
+    const previousValue = flowerbed[i - 1];
+    const nextValue = flowerbed[i + 1];
 
-    if (isPositionFlowerbed) {
-      flowerbed[pointer1] = 1;
+    const isFirstOrLastPosition = i === 0 || i === flowerbed.length - 1;
+
+    if (isFirstOrLastPosition && currentValue == 0 && nextValue == 0) {
+      flowerbed[i] = 1;
 
       sumFlowerbed++;
     }
 
-    pointer1++;
-  }
+    if (isFirstOrLastPosition && currentValue == 0 && previousValue == 0) {
+      flowerbed[i] = 1;
 
-  if (sumFlowerbed === n) {
-    return true;
+      sumFlowerbed++;
+    }
+
+    if (previousValue == 0 && currentValue == 0 && nextValue == 0) {
+      flowerbed[i] = 1;
+
+      sumFlowerbed++;
+    }
+
+    if (sumFlowerbed === n) {
+      return true;
+    }
+
+    i++;
   }
 
   return false;
