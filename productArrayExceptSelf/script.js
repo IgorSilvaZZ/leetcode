@@ -3,38 +3,37 @@
     Output: [24,12,8,6]
 */
 
-const numsParam = [-1, 1, 0, -3, 3];
+const numsParam = [1, 2, 3, 4];
 
 var productExceptSelf = function (nums) {
-  let currentIndex = 0;
+  let someRightProduct = 1;
+  let someLeftProduct = 1;
 
-  const newNumbers = [];
+  let newNumbers = [];
 
-  while (currentIndex < nums.length) {
-    let resultProductFiltered = undefined;
-
-    for (let i = 0; i < nums.length; i++) {
-      if (currentIndex != i) {
-        let number = nums[i];
-
-        if (resultProductFiltered === undefined) {
-          resultProductFiltered = number;
-        } else {
-          resultProductFiltered *= number;
-        }
-      }
+  // For para coletar da esquerda
+  for (let index = 0; index < nums.length; index++) {
+    if (index === 0) {
+      someLeftProduct *= 1;
+    } else {
+      someLeftProduct *= nums[index - 1];
     }
 
-    if (resultProductFiltered === 0) {
-      resultProductFiltered = Math.abs(resultProductFiltered);
-    }
-
-    newNumbers.push(resultProductFiltered);
-
-    currentIndex++;
+    newNumbers[index] = someLeftProduct;
   }
 
-  return newNumbers;
+  // For para coletar da direita
+  for (let index = nums.length - 1; index >= 0; index--) {
+    if (index === nums.length - 1) {
+      someRightProduct = 1;
+    } else {
+      someRightProduct *= nums[index + 1];
+    }
+
+    newNumbers[index] *= someRightProduct;
+  }
+
+  return newNumbers.map((item) => (item === 0 ? 0 : item));
 };
 
 const resultProductExceptSelf = productExceptSelf(numsParam);
