@@ -26,6 +26,8 @@ var maximumWealth = function (accounts) {
     if (someAccount > maxBalanceAccount) {
       maxBalanceAccount = someAccount;
     }
+
+    // maxBalanceAccount = Math.max(maxBalanceAccount, someAccount)
   }
 
   return maxBalanceAccount;
