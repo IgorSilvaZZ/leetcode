@@ -3,44 +3,35 @@
     Saída: "s'teL ekat edoCteeL tsetnoc"
 */
 
-let stringParam = "I love u";
+const stringParam = "rac art";
 
-var reverseWords = function (s) {
-  let result = "";
+var reverseWords = (s) => {
+	let result = "";
 
-  let pointer1 = 0;
-  let pointer2 = 0;
+	let left = 0;
+	let right = 0;
 
-  while (pointer2 <= s.length - 1) {
-    // Identificando o espaço em branco e se esta na ultima posição da string
-    if (s[pointer2] === " " || pointer2 === s.length - 1) {
-      let splittedWord = "";
+	while (right < s.length) {
+		if (s[right] !== " ") {
+			right += 1;
+		} else {
+			// Invertendo a palavra
+			result += s
+				.slice(left, right + 1)
+				.split("")
+				.reverse()
+				.join("");
 
-      // Realizar o splice do bloco
-      for (let i = pointer1; i < pointer2 + 1; i++) {
-        if (s[i] !== " ") {
-          splittedWord += `${s[i]}`;
-        }
-      }
+			right += 1;
+			left = right;
+		}
+	}
 
-      // Inverter a ordem da string
+	result += " ";
 
-      for (let i = splittedWord.length - 1; i >= 0; i--) {
-        result += `${splittedWord[i]}`;
-      }
+	result += s.slice(left, right).split("").reverse().join("");
 
-      // Adiciona espaço em branco, exceto na primeira e ultima posição
-      if (pointer2 !== 0 && pointer2 !== s.length - 1) {
-        result += " ";
-      }
-
-      pointer1 = pointer2 + 1;
-    }
-
-    pointer2++;
-  }
-
-  return result;
+	return result.trim();
 };
 
 const resultReverse = reverseWords(stringParam);
