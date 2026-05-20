@@ -1,6 +1,30 @@
-/* 
-    Given two integer arrays nums1 and nums2, return an array of their intersection. Each element in the result must be unique and you may return the result in any order.
-*/
+/**
+ * @param {number[]} arr
+ * @param {number} target
+ * @return {boolean}
+ */
+function binarySearch(arr, target) {
+	let low = 0;
+	let high = arr.length - 1;
+
+	while (low <= high) {
+		const middle = Math.floor((low + high) / 2);
+
+		const possibleValue = arr[middle];
+
+		if (possibleValue === target) {
+			return true;
+		}
+
+		if (possibleValue < target) {
+			low = middle + 1;
+		} else {
+			high = middle - 1;
+		}
+	}
+
+	return false;
+}
 
 /**
  * @param {number[]} nums1
@@ -8,35 +32,28 @@
  * @return {number[]}
  */
 var intersection = (nums1, nums2) => {
-	/* Precisa aparecer nos dois arrays para ser considerado unico e retornavel */
+	const common = new Set([]);
 
-	const frequenciesNumbers = {};
+	const nums1Order = nums1.sort((a, b) => a - b);
+	const nums2Order = nums2.sort((a, b) => a - b);
 
-	for (let i = 0; i < nums1.length; i++) {
-		const currentValue = nums1[i];
+	/* Coletando o menor e maior array de comprimento */
+	const [smaller, large] =
+		nums1Order.length < nums2Order.length
+			? [nums1Order, nums2Order]
+			: [nums2Order, nums1Order];
 
-		if (!frequenciesNumbers[currentValue]) {
-			frequenciesNumbers[currentValue] = 1;
+	smaller.forEach((item) => {
+		if (binarySearch(large, item)) {
+			common.add(item);
 		}
-	}
+	});
 
-	for (let i = 0; i < nums2.length; i++) {
-		const currentValue = nums2[i];
-
-		if (frequenciesNumbers[currentValue]) {
-			frequenciesNumbers[currentValue] = frequenciesNumbers[currentValue] + 1;
-		}
-	}
-
-	const duplicatedNumbers = Object.keys(frequenciesNumbers)
-		.filter((key) => frequenciesNumbers[key] >= 2)
-		.map(Number);
-
-	return duplicatedNumbers;
+	return Array.from(common);
 };
 
-const nums1Param = [1];
-const nums2Param = [1];
+const nums1Param = [1, 2, 2, 1];
+const nums2Param = [2, 2];
 
 const result = intersection(nums1Param, nums2Param);
 
